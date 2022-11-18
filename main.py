@@ -1,16 +1,34 @@
-# This is a sample Python script.
-
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
-
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+import sys
+from random import randint
+from PyQt5 import uic
+from PyQt5.QtGui import QPainter, QColor
+from PyQt5.QtWidgets import QMainWindow, QApplication
 
 
-# Press the green button in the gutter to run the script.
+class Example(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        uic.loadUi('UI.ui', self)
+        self.flag = False
+        self.pushButton.clicked.connect(self.drawf)
+
+    def drawf(self):
+        self.flag = True
+        self.update()
+
+    def paintEvent(self, event):
+        if self.flag:
+            self.qp = QPainter()
+            self.qp.begin(self)
+            self.r = randint(10, 100)
+            self.x = randint(100, 370)
+            self.y = randint(100, 260)
+            self.qp.setPen(QColor(255, 255, 0))
+            self.qp.drawEllipse(self.x, self.y, self.r, self.r)
+
+
 if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    app = QApplication(sys.argv)
+    ex = Example()
+    ex.show()
+    sys.exit(app.exec_())
